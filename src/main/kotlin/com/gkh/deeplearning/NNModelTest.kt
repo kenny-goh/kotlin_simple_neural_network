@@ -152,7 +152,7 @@ class NNModelTest {
         yArrays.add(doubleArrayOf( 0.0 ))
         val Y = Nd4j.create(yArrays.toTypedArray()).transpose()
 
-        val parameters = NNModel.nn_model(
+        val parameters = NNModel.train(
             X,
             Y,
             4,
@@ -201,7 +201,7 @@ class NNModelTest {
         val xPredict = Nd4j.create(xPredictArrays.toTypedArray()).transpose()
         val yPredict = Nd4j.create(yPredictArrays.toTypedArray()).transpose()
 
-        val parameters = NNModel.nn_model(
+        val parameters = NNModel.train(
             xTrain,
             yTrain,
             4,

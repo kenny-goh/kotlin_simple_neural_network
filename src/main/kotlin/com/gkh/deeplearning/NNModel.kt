@@ -236,7 +236,7 @@ class NNModel {
          *  Returns:
          *  parameters : parameters learnt by the model
          */
-        fun nn_model(
+        fun train(
             X: INDArray,
             Y: INDArray,
             n_h: Long,
