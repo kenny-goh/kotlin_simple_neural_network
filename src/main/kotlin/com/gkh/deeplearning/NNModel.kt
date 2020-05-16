@@ -14,13 +14,13 @@ class NNModel {
     companion object {
         /**
          * Arguments:
-         * X : input dataset of shape (input size, number of examples)
-         * Y : labels of shape (output size, number of examples)
+         *  X : input dataset of shape (input size, number of examples)
+         *  Y : labels of shape (output size, number of examples)
          *
          * Returns:
-         * n_x : the size of the input layer
-         * n_h : the size of the hidden layer
-         * n_y : the size of the output layer
+         *  n_x : the size of the input layer
+         *  n_h : the size of the hidden layer
+         *  n_y : the size of the output layer
          */
         fun layerSizes(X: INDArray, Y: INDArray): Triple<Long, Long, Long> {
             val n_x = X.size(0)
@@ -31,16 +31,16 @@ class NNModel {
 
         /**
          * Argument:
-         * n_x : size of the input layer
-         * n_h : size of the hidden layer
-         * n_y : size of the output layer
+         *  n_x : size of the input layer
+         *  n_h : size of the hidden layer
+         *  n_y : size of the output layer
          *
          * Returns:
-         * params :  map containing your parameters:
-         * W1 : weight matrix of shape (n_h, n_x)
-         * b1 : bias vector of shape (n_h, 1)
-         * W2 : weight matrix of shape (n_y, n_h)
-         * b2 : bias vector of shape (n_y, 1)
+         *  params :  map containing parameters:
+         *  W1 : weight matrix of shape (n_h, n_x)
+         *  b1 : bias vector of shape (n_h, 1)
+         *  W2 : weight matrix of shape (n_y, n_h)
+         *  b2 : bias vector of shape (n_y, 1)
          *
          */
         fun initParameters(n_x: Long, n_h: Long, n_y: Long): MutableMap<String, INDArray> {
@@ -70,11 +70,11 @@ class NNModel {
         }
 
         /**
-         *  Argument:
+         * Argument:
          *  X : input data of size (n_x, m)
-         *  parameters :  map containing your parameters (output of initialization function)
+         *  parameters : map containing  parameters (output of initialization function)
          *
-         *  Returns:
+         * Returns:
          *  A2 : The sigmoid output of the second activation
          *  cache : a map containing "Z1", "A1", "Z2" and "A2"
          */
@@ -106,13 +106,13 @@ class NNModel {
         }
 
         /**
-         *  Computes the cross-entropy cost given in equation (13)
+         * Computes the cross-entropy cost given in equation (13)
          *
-         *  Arguments:
+         * Arguments:
          *  A2 : The sigmoid output of the second activation, of shape (1, number of examples)
          *  Y : "true" labels vector of shape (1, number of examples)
          *
-         *  Returns: 
+         * Returns:
          *  cost : cross-entropy cost given equation (13)
          */
         fun computeCost(A2: INDArray, Y: INDArray, parameters: Map<String, INDArray>): Double {
@@ -134,16 +134,16 @@ class NNModel {
         }
 
         /**
-         *  Implement the backward propagation using the instructions above.
+         * Implement the backward propagation using the instructions above.
          *
-         *  Arguments:
+         * Arguments:
          *  parameters :  map containing our parameters
          *  cache : a map containing "Z1", "A1", "Z2" and "A2".
          *  X : input data of shape (2, number of examples)
          *  Y : "true" labels vector of shape (1, number of examples)
          *
-         *  Returns:
-         *  grads : map containing your gradients with respect to different parameters
+         * Returns:
+         *  grads : map containing gradients with respect to different parameters
          *
          */
         fun backwardPropagation(
@@ -184,11 +184,12 @@ class NNModel {
 
         /**
          * Updates parameters using the gradient descent update rule given above
+         *
          * Arguments:
-         * parameters : map containing your parameters
-         * grads : map containing your gradients
+         *  parameters : map containing  parameters
+         *  grads : map containing  gradients
          * Returns:
-         * parameters : map containing your updated parameters
+         *  parameters : map containing updated parameters
          */
         fun updateParameters(
             parameters: Map<String, INDArray>,
@@ -233,7 +234,7 @@ class NNModel {
          *  print_cost : if True, print the cost every 1000 iterations
          *
          *  Returns:
-         *  parameters : parameters learnt by the model. They can then be used to predict.
+         *  parameters : parameters learnt by the model
          */
         fun nn_model(
             X: INDArray,
@@ -287,11 +288,11 @@ class NNModel {
          * Using the learned parameters, predicts a class for each example in X
          *
          * Arguments:
-         * parameters :  map containing your parameters
+         * parameters : map containing parameters
          * X : input data of size (n_x, m)
          *
          * Returns
-         * predictions : vector of predictions of our model (red: 0 / blue: 1)
+         * predictions : vector of predictions of the model
          */
         fun predict(parameters: Map<String, INDArray>, X: INDArray): INDArray {
             //Computes probabilities using forward propagation, and classifies to 0/1 using 0.5 as the threshold.
