@@ -194,7 +194,7 @@ class NNModel {
         fun updateParameters(
             parameters: Map<String, INDArray>,
             grads: Map<String, INDArray>,
-            learningRate: Float = 1.2f
+            learningRate: Double = 1.2
         ): MutableMap<String, INDArray> {
 
             // Retrieve each parameter from the map "parameters"
@@ -221,8 +221,6 @@ class NNModel {
                 "W2" to W2,
                 "b2" to b2
             )
-
-
         }
 
         /**
@@ -240,7 +238,7 @@ class NNModel {
             X: INDArray,
             Y: INDArray,
             n_h: Long,
-            num_iterations: Int = 10000,
+            num_iterations: Int = 1000,
             print_cost: Boolean = false
         ): MutableMap<String, INDArray> {
 
@@ -254,28 +252,19 @@ class NNModel {
             // Loop (gradient descent)​
             for (i in 0..num_iterations) {
                 // Forward propagation. Inputs: "X, parameters". Outputs: "A2, cache".
-                val (A2, cache) = forwardPropagation(
-                    X,
-                    parameters
-                )
+                val (A2, cache) = forwardPropagation(X, parameters)
 
                 // Cost function . Inputs : "A2, Y, parameters". Outputs: "cost".
                 val cost = computeCost(A2, Y, parameters)
 
                 // Backpropagation.Inputs: "parameters, cache, X, Y". Outputs: "grads".
-                val grads = backwardPropagation(
-                    parameters,
-                    cache,
-                    X,
-                    Y
-                )
+                val grads = backwardPropagation(parameters, cache, X, Y)
 
                 // Gradient descent parameter update . Inputs : "parameters, grads". Outputs: "parameters".
-                parameters =
-                    updateParameters(parameters, grads)
+                parameters = updateParameters(parameters, grads)
 
                 // Print the cost every 1000 iterations
-                if (print_cost && i % 1000 == 0) {
+                if (print_cost && i % 100 == 0) {
                     println("Cost after iteration $i: $cost")
                 }
             }
