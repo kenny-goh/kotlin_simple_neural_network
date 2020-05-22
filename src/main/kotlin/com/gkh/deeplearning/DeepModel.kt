@@ -17,6 +17,9 @@ typealias LinearModelForwardTuple = Pair<Matrix, List<LinearForwardAndActivation
 typealias LinearBackwardTriple = Triple<Matrix, Matrix, Matrix>
 typealias LinearActivationBackwardTriple = Triple<Matrix, Matrix, Matrix>
 
+private val SIGMOID = "sigmoid"
+private val RELU = "relu"
+
 /**
  * L-Layer implementation of Deep Learning algorithm, based on lessons from
  * Andrew Ng's deep learning course in Coursera
@@ -116,13 +119,13 @@ class DeepModel {
             b: Matrix,
             activation: String
         ): LinearActivationForwardTuple {
-            if (activation == "sigmoid") {
+            if (activation == SIGMOID) {
                 val (Z, linearCache) = linearForward(A_prev, W, b)
                 val (A, activationCache) = sigmoid(Z)
                 assert(A.shape().toList() == listOf(W.shape()[0], A_prev.shape()[1]))
                 val cache = Pair(linearCache, activationCache)
                 return Pair(A, cache)
-            } else if (activation == "relu") {
+            } else if (activation == RELU) {
                 val (Z, linearCache) = linearForward(A_prev, W, b)
                 val (A, activationCache) = relu(Z)
                 assert(A.shape().toList() == listOf(W.shape()[0], A_prev.shape()[1]))
@@ -157,7 +160,7 @@ class DeepModel {
                     A_prev,
                     parameters["W$l"]!!,
                     parameters["b$l"]!!,
-                    activation = "relu"
+                    activation = RELU
                 )
                 A = A_
                 caches.add(cache)
@@ -168,7 +171,7 @@ class DeepModel {
                 A,
                 parameters["W$L"]!!,
                 parameters["b$L"]!!,
-                activation = "sigmoid"
+                activation = SIGMOID
             )
             caches.add(cache)
             assert(AL.shape().toList() == listOf(1, X.shape()[1]))
@@ -246,11 +249,11 @@ class DeepModel {
             activation: String
         ): LinearActivationBackwardTriple {
             val (linearCache, activationCache) = cache
-            if (activation == "relu") {
+            if (activation == RELU) {
                 val dZ = reluBackward(dA, activationCache)
                 val (dA_prev, dW, db) = linearBackward(dZ, linearCache)
                 return Triple(dA_prev, dW, db)
-            } else if (activation == "sigmoid") {
+            } else if (activation == SIGMOID) {
                 val dZ = sigmoidBackward(dA, activationCache)
                 val (dA_prev, dW, db) = linearBackward(dZ, linearCache)
                 return Triple(dA_prev, dW, db)
@@ -289,7 +292,7 @@ class DeepModel {
 
             // Lth layer (SIGMOID -> LINEAR) gradients. Inputs: "dAL, current_cache". Outputs: "grads["dAL-1"], grads["dWL"], grads["dbL"]
             var currentCache = caches[L - 1]
-            val (dA_prev, dWL, dbL) = linearActivationBackward(dAL, currentCache, activation = "sigmoid")
+            val (dA_prev, dWL, dbL) = linearActivationBackward(dAL, currentCache, activation = SIGMOID)
             val L_prev = (L - 1).toString()
             grads["dA$L_prev"] = dA_prev
             grads["dW$L"] = dWL
@@ -304,7 +307,7 @@ class DeepModel {
                 val (dA_prev_temp, dW_temp, db_temp) = linearActivationBackward(
                     grads["dA$L_next"]!!,
                     currentCache,
-                    activation = "relu"
+                    activation = RELU
                 )
                 grads["dA$l"] = dA_prev_temp
                 grads["dW$L_next"] = dW_temp
